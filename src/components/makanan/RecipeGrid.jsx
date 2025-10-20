@@ -1,8 +1,9 @@
 // src/components/makanan/RecipeGrid.jsx
 import { Clock, Star, ChefHat } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import SearchbarMakanan from './SearchbarMakanan';
 
-export default function RecipeGrid({ recipes }) {
+export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
   const [visibleCards, setVisibleCards] = useState(new Set());
   const cardRefs = useRef([]);
 
@@ -42,7 +43,8 @@ export default function RecipeGrid({ recipes }) {
       <p className="text-center text-slate-500 max-w-2xl mx-auto mb-8">
         Temukan inspirasi masakan Nusantara favoritmu. Dari hidangan utama hingga camilan, semua ada di sini.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+      <SearchbarMakanan searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-7">
         {recipes.map((recipe, index) => (
           <div 
             key={recipe.id} 
