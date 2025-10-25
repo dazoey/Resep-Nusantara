@@ -1,12 +1,14 @@
-// src/components/DesktopNavbar.jsx
+
+import { Link, useLocation } from 'react-router-dom';
 import logoUrl from '../../assets/LOGORN.png';
 
-export default function DesktopNavbar({ currentPage, onNavigate }) {
+export default function DesktopNavbar() {
+  const location = useLocation();
   const navItems = [
-    { id: 'home', label: 'Beranda' },
-    { id: 'makanan', label: 'Makanan' },
-    { id: 'minuman', label: 'Minuman' },
-    { id: 'profile', label: 'Profile' }
+    { id: 'home', label: 'Beranda', path: '/' },
+    { id: 'makanan', label: 'Makanan', path: '/makanan' },
+    { id: 'minuman', label: 'Minuman', path: '/minuman' },
+    { id: 'profile', label: 'Profile', path: '/profile' }
   ];
 
   return (
@@ -39,17 +41,17 @@ export default function DesktopNavbar({ currentPage, onNavigate }) {
           {/* Navigation Links */}
           <div className="flex items-center space-x-10">
             {navItems.map((item) => (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => onNavigate(item.id)}
+                to={item.path}
                 className={`px-4 py-3 text-base font-medium transition-all duration-200 border-b-2 ${
-                  currentPage === item.id
+                  location.pathname === item.path
                     ? 'text-blue-600 border-blue-500'
                     : 'text-slate-600 border-transparent hover:text-blue-500 hover:border-blue-300'
                 }`}
               >
                 {item.label}
-              </button>
+              </Link>
             ))}
           </div>
          

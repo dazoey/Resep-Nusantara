@@ -1,14 +1,13 @@
-// src/pages/MinumanPage.jsx
+
 import { useState, useEffect } from 'react';
 import { ResepMinuman } from '../data/minuman';
 import RecipeGrid from '../components/minuman/RecipeGrid';
 
+const allMinuman = Object.values(ResepMinuman.resep);
+
 export default function MinumanPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
-
-  
-  const allMinuman = Object.values(ResepMinuman.resep);
+  const [filteredRecipes, setFilteredRecipes] = useState(allMinuman);
 
   useEffect(() => {
    

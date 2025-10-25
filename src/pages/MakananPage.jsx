@@ -1,14 +1,13 @@
-// src/pages/MakananPage.jsx
+
 import { useState, useEffect } from 'react';
 import { ResepMakanan } from '../data/makanan';
 import RecipeGrid from '../components/makanan/RecipeGrid';
 
+const allMakanan = Object.values(ResepMakanan.resep);
+
 export default function MakananPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
-
- 
-  const allMakanan = Object.values(ResepMakanan.resep);
+  const [filteredRecipes, setFilteredRecipes] = useState(allMakanan);
 
   useEffect(() => {
     
