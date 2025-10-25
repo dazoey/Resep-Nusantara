@@ -1,14 +1,22 @@
-// src/components/minuman/RecipeGrid.jsx
 import { Clock, Star, ChefHat } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import SearchbarMinuman from './SearchBarMinuman';
+import Pagination from '../pagination/Pagination';
 
 export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
   const [visibleCards, setVisibleCards] = useState(new Set());
   const cardRefs = useRef([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(recipes.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentRecipes = recipes.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
-    cardRefs.current = cardRefs.current.slice(0, recipes.length);
+    setVisibleCards(new Set());
+    cardRefs.current = cardRefs.current.slice(0, currentRecipes.length);
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -31,7 +39,12 @@ export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
     return () => {
       observer.disconnect();
     };
-  }, [recipes]);
+  }, [currentPage, recipes.length]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <section>
@@ -43,7 +56,7 @@ export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
       </p>
       <SearchbarMinuman searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-7">
-        {recipes.map((recipe, index) => (
+        {currentRecipes.map((recipe, index) => (
           <div 
             key={recipe.id} 
             ref={el => cardRefs.current[index] = el}
@@ -53,7 +66,6 @@ export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
                 : 'translate-y-8 opacity-0'
             }`}
           >
-            {/* Card structure is consistent, only the tag is changed */}
             <div className="relative bg-white/15 backdrop-blur-xl border border-white/25 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg md:shadow-2xl shadow-green-500/5 hover:shadow-green-500/15 transition-all duration-500 cursor-pointer group-hover:scale-105 group-hover:bg-white/20">
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative h-32 md:h-56 overflow-hidden">
@@ -66,7 +78,6 @@ export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
               </div>
               <div className="relative z-10 p-4 md:p-8">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
-                  {/* Changed tag color from blue to green */}
                   <span className="text-xs font-semibold text-green-700 bg-green-100/90 px-2 md:px-3 py-1 md:py-1.5 rounded-full">
                     Minuman
                   </span>
@@ -93,11 +104,16 @@ export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
           </div>
         ))}
       </div>
-       {recipes.length === 0 && (
+      {recipes.length === 0 && (
         <div className="text-center py-16">
-            <p className="text-slate-500">Minuman tidak ditemukan. Coba kata kunci lain.</p>
+          <p className="text-slate-500">Minuman tidak ditemukan. Coba kata kunci lain.</p>
         </div>
       )}
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </section>
   );
 }
