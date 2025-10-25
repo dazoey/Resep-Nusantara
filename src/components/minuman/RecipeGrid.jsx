@@ -1,10 +1,30 @@
-import { Clock, Star, ChefHat } from 'lucide-react';
+import { Clock, Star, ChefHat, Heart } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import SearchbarMinuman from './SearchBarMinuman';
 import Pagination from '../pagination/Pagination';
 import { Link } from 'react-router-dom';
 
 export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    setFavorites(storedFavorites);
+  }, []);
+
+  const toggleFavorite = (e, recipe) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let updatedFavorites = [];
+    if (favorites.some(fav => fav.id === recipe.id)) {
+      updatedFavorites = favorites.filter(fav => fav.id !== recipe.id);
+    } else {
+      updatedFavorites = [...favorites, recipe];
+    }
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  };
+
   const [visibleCards, setVisibleCards] = useState(new Set());
   const cardRefs = useRef([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,6 +104,9 @@ export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
                       <Star className="w-3 h-3 md:w-4 md:h-4 text-yellow-500 fill-current" />
                       <span className="text-xs md:text-sm font-semibold text-slate-700">4.7</span>
                     </div>
+                    <button onClick={(e) => toggleFavorite(e, recipe)} className="relative z-20 text-slate-700 hover:text-red-500 transition-colors duration-200">
+                      <Heart className={`w-5 h-5 md:w-6 md:h-6 ${favorites.some(fav => fav.id === recipe.id) ? 'fill-current text-red-500' : ''}`} />
+                    </button>
                   </div>
                   <h3 className="font-bold text-slate-800 mb-3 md:mb-4 text-base md:text-xl group-hover:text-green-600 transition-colors duration-200 line-clamp-2">
                     {recipe.name}

@@ -1,5 +1,5 @@
 
-import { Home, ChefHat, Coffee, User } from 'lucide-react';
+import { Home, ChefHat, Coffee, User, Heart } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function MobileNavbar() {
@@ -8,6 +8,7 @@ export default function MobileNavbar() {
     { id: 'home', label: 'Beranda', icon: Home, path: '/' },
     { id: 'makanan', label: 'Makanan', icon: ChefHat, path: '/makanan' },
     { id: 'minuman', label: 'Minuman', icon: Coffee, path: '/minuman' },
+    { id: 'favorite', label: 'Favorit', icon: Heart, path: '/favorites' },
     { id: 'profile', label: 'Profile', icon: User, path: '/profile' }
   ];
 

@@ -8,6 +8,7 @@ import MakananPage from './pages/MakananPage';
 import MinumanPage from './pages/MinumanPage';
 import ProfilePage from './pages/ProfilePage';
 import RecipeDetailPage from './pages/RecipeDetailPage';
+import FavoritePage from './pages/FavoritePage';
 import DesktopNavbar from './components/navbar/DesktopNavbar';
 import MobileNavbar from './components/navbar/MobileNavbar';
 import './index.css';
@@ -34,6 +35,7 @@ function AppRoot() {
             <Route path="/makanan" element={<MakananPage />} />
             <Route path="/minuman" element={<MinumanPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/favorites" element={<FavoritePage />} />
             <Route path="/:type/:id" element={<RecipeDetailPage />} />
           </Routes>
         </main>

@@ -8,6 +8,7 @@ export default function DesktopNavbar() {
     { id: 'home', label: 'Beranda', path: '/' },
     { id: 'makanan', label: 'Makanan', path: '/makanan' },
     { id: 'minuman', label: 'Minuman', path: '/minuman' },
+    { id: 'favorite', label: 'Favorit', path: '/favorites' },
     { id: 'profile', label: 'Profile', path: '/profile' }
   ];
 
