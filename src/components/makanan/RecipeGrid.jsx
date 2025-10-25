@@ -1,6 +1,6 @@
 import { Clock, Star, ChefHat, Heart } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import SearchbarMakanan from './SearchbarMakanan';
+import SearchbarMakanan from './SearchBarMakanan';
 import Pagination from '../pagination/Pagination';
 import { Link } from 'react-router-dom';
 export default function RecipeGrid({ recipes, searchQuery, setSearchQuery }) {
